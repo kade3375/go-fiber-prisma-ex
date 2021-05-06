@@ -22,6 +22,17 @@ open http://localhost:3000/graphiql
 # or using insomnia
 ```
 
+## DB 마이그레이션
+```shell
+
+# 마이그레이션 파일을 생성한다 (조건이 맞으면 ALTER, 아니면 CREATE 생성)
+make dbGenerateMigration
+
+# 실제 마이그레이션을 실행 (디폴트 값이 없거나 새로운 관계가 생기면 CREATE DDL 생성됨)
+# 기존 데이터가 있었던 경우 모두 클리어 될수 있음
+make dbMigration
+```
+
 ## 테스트
 
 ```shell
