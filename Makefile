@@ -1,7 +1,10 @@
-.PHONY: start test dbSync dbGenerate
+.PHONY: dev build test dbSync dbGenerate
 
-start:
+dev:
 	go run main.go
+
+build:
+	go build -o server main.go
 
 test:
 	go test
