@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"encoding/json"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -30,24 +31,33 @@ func TestORM(t *testing.T) {
 		t.Error(err)
 	}
 
-	result, _ := json.MarshalIndent(createdPost, "", "  ")
-	t.Logf("created post: %s\n", result)
+	t.Logf("createdPost: %+v", createdPost)
 
-	// find a single post
-	post, err := client.Post.FindUnique(
-		Post.ID.Equals(createdPost.ID),
+	// then create a comment
+	comments, err := client.Comment.CreateOne(
+		Comment.Content.Set("my description"),
+		// link the post we created before
+		Comment.Post.Link(
+			Post.ID.Equals(createdPost.ID),
+		),
 	).Exec(ctx)
 	if err != nil {
 		t.Error(err)
 	}
 
-	result, _ = json.MarshalIndent(post, "", "  ")
-	t.Logf("post: %s\n", result)
+	t.Logf("comments: %+v", comments)
 
-	desc, ok := post.Desc()
-	if !ok {
-		t.Error("post's description is null")
+	post, err := client.Post.FindUnique(
+		Post.ID.Equals(createdPost.ID),
+	).With(
+		Post.Comments.Fetch(),
+	).Exec(ctx)
+	if err != nil {
+		t.Error(err)
 	}
 
-	t.Logf("The posts's description is: %s\n", desc)
+	result, _ := json.MarshalIndent(post, "", "  ")
+	t.Logf("post with comment: %s\n", result)
+
+	assert.Equal(t, len(post.Comments()), 1, "Comment Added")
 }
