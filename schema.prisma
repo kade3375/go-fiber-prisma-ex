@@ -1,6 +1,6 @@
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:1q2w@localhost:3306/dev"
+  url      = env("DATABASE_URL")
 }
 
 generator db {
@@ -8,20 +8,20 @@ generator db {
 }
 
 model Post {
-    id        String   @default(cuid()) @id
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    title     String
-    published Boolean
-    desc      String?
-    comments Comment[]
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  title     String
+  published Boolean
+  desc      String?
+  comments  Comment[]
 }
 
 model Comment {
-    id        String   @default(cuid()) @id
-    createdAt DateTime @default(now())
-    content   String
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  content   String
 
-    post   Post @relation(fields: [postID], references: [id])
-    postID String
+  post   Post   @relation(fields: [postID], references: [id])
+  postID String
 }

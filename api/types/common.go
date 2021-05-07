@@ -1,4 +1,4 @@
-package api
+package types
 
 type Request struct {
 	CODE int `json:"code"`
