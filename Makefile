@@ -1,3 +1,4 @@
+# Make file
 .PHONY: dev build test dbSync dbGenerate
 
 dev:
