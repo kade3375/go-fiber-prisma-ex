@@ -29,7 +29,7 @@ open http://localhost:3000/graphiql
 make dbGenerateMigration
 
 # 실제 마이그레이션을 실행 (디폴트 값이 없거나 새로운 관계가 생기면 CREATE DDL 생성됨)
-# 기존 데이터가 있었던 경우 모두 클리어 될수 있음
+# 기존 데이터가 있었던 경우 모두 클리어 될수 있음 ...
 make dbMigration
 ```
 
